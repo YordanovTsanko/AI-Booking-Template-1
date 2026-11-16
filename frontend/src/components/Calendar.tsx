@@ -42,7 +42,7 @@ export default function Calendar({ value, onChange, isDateDisabled, maxDaysAhead
   };
 
   return (
-    <div className="select-none">
+    <div className="min-w-0 select-none">
       <div className="mb-3 flex items-center justify-between">
         <button type="button" onClick={() => shift(-1)} disabled={!canPrev} className="btn-ghost btn-sm" aria-label="Предишен месец">
           ←
@@ -77,7 +77,7 @@ export default function Calendar({ value, onChange, isDateDisabled, maxDaysAhead
               onClick={() => onChange(date)}
               aria-pressed={selected}
               aria-label={date}
-              className={`aspect-square rounded-xl text-sm font-semibold transition ${
+              className={`aspect-square min-w-0 rounded-lg text-xs font-semibold transition sm:rounded-xl sm:text-sm ${
                 selected
                   ? 'bg-linear-to-br from-brand-600 to-accent-600 text-white shadow-glow'
                   : disabled

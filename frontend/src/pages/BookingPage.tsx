@@ -16,6 +16,8 @@ import type { ApiResponse, Availability, Booking, Feedback, FieldErrors, Service
 
 type Step = 1 | 2 | 3;
 const STEPS = ['Избери услуга', 'Избери служител и дата', 'Потвърди'];
+// Short labels for narrow phone screens
+const STEPS_SHORT = ['Услуга', 'Служител', 'Потвърди'];
 
 interface StepperProps {
   step: Step;
@@ -37,7 +39,7 @@ function Stepper({ step, onStepClick, canGoTo }: StepperProps) {
               disabled={!canGoTo(n)}
               onClick={() => onStepClick(n)}
               aria-current={active ? 'step' : undefined}
-              className={`flex w-full flex-col items-center gap-2 rounded-2xl border px-2 py-3 text-center transition sm:flex-row sm:px-4 sm:text-left ${
+              className={`flex w-full min-w-0 flex-col items-center gap-1.5 rounded-2xl border px-1.5 py-2.5 text-center transition sm:flex-row sm:gap-2 sm:px-4 sm:py-3 sm:text-left ${
                 active ? 'border-brand-500 bg-brand-600/15' : done ? 'border-emerald-500/40 bg-emerald-500/10' : 'border-white/10 bg-ink-800'
               } disabled:cursor-not-allowed`}
             >
@@ -48,7 +50,10 @@ function Stepper({ step, onStepClick, canGoTo }: StepperProps) {
               >
                 {done ? '✓' : n}
               </span>
-              <span className={`text-xs font-semibold uppercase tracking-wide sm:text-sm ${active ? 'text-white' : 'text-slate-400'}`}>{label}</span>
+              <span className={`min-w-0 text-[11px] leading-tight font-semibold uppercase tracking-wide sm:text-sm ${active ? 'text-white' : 'text-slate-400'}`}>
+                <span className="sm:hidden">{STEPS_SHORT[i]}</span>
+                <span className="hidden sm:inline">{label}</span>
+              </span>
             </button>
           </li>
         );
@@ -308,14 +313,14 @@ export default function BookingPage() {
 
         {/* STEP 2 – STAFF + DATE + TIME */}
         {step === 2 && (
-          <section className="mt-8 grid animate-fade-in gap-6 lg:grid-cols-[1fr_1.2fr]" aria-labelledby="step2-title">
-            <div className="card space-y-6 p-6">
-              <h2 id="step2-title" className="font-display text-2xl font-semibold uppercase tracking-wide text-white">
+          <section className="mt-8 grid animate-fade-in grid-cols-1 gap-6 lg:grid-cols-[1fr_1.2fr]" aria-labelledby="step2-title">
+            <div className="card min-w-0 space-y-6 p-4 sm:p-6">
+              <h2 id="step2-title" className="font-display text-xl sm:text-2xl font-semibold uppercase tracking-wide text-white">
                 2. Служител и дата
               </h2>
 
               {selectedService && (
-                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
+                <div className="flex min-w-0 items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
                   <ServiceImage service={selectedService} className="h-14 w-14 shrink-0 rounded-lg" compact />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold text-white">{selectedService.title}</p>
@@ -353,7 +358,7 @@ export default function BookingPage() {
 
               <div>
                 <p className="label">Дата</p>
-                <div className={`rounded-2xl border border-white/10 bg-ink-900/60 p-4 ${!staffId ? 'pointer-events-none opacity-40' : ''}`} aria-disabled={!staffId}>
+                <div className={`rounded-2xl border border-white/10 bg-ink-900/60 p-2 sm:p-4 ${!staffId ? 'pointer-events-none opacity-40' : ''}`} aria-disabled={!staffId}>
                   <Calendar
                     value={date}
                     onChange={(d) => {
@@ -368,7 +373,7 @@ export default function BookingPage() {
               </div>
             </div>
 
-            <div className="card flex flex-col p-6">
+            <div className="card flex min-w-0 flex-col p-4 sm:p-6">
               <h3 className="font-display text-xl font-semibold uppercase tracking-wide text-white">Свободни часове</h3>
               <p className="text-sm text-slate-400">{date ? formatDate(date) : 'Избери дата от календара'}</p>
 
@@ -430,7 +435,7 @@ export default function BookingPage() {
           <section className="mx-auto mt-8 max-w-2xl animate-fade-in" aria-labelledby="step3-title">
             <div className="card overflow-hidden">
               <div className="barber-stripes h-1.5 w-full" aria-hidden="true" />
-              <div className="p-6 sm:p-8">
+              <div className="p-4 sm:p-8">
                 <h2 id="step3-title" className="font-display text-2xl font-semibold uppercase tracking-wide text-white">
                   {created ? 'Резервацията е готова 💈' : '3. Потвърди резервацията'}
                 </h2>
