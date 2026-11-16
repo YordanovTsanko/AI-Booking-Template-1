@@ -4,16 +4,25 @@
 
 @layer base {
   html {
+    color-scheme: dark;
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply min-h-screen bg-slate-50 font-sans text-slate-800;
+    @apply min-h-screen bg-ink-900 font-sans text-slate-200;
+    background-image:
+      radial-gradient(60rem 30rem at 110% -10%, rgba(37, 99, 235, 0.12), transparent 60%),
+      radial-gradient(50rem 30rem at -10% 110%, rgba(220, 38, 38, 0.1), transparent 60%);
+    background-attachment: fixed;
   }
   ::selection {
-    @apply bg-brand-200 text-brand-900;
+    @apply bg-brand-600 text-white;
   }
   :focus-visible {
-    @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-ink-900;
+  }
+  input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.6;
   }
 }
 
@@ -23,42 +32,45 @@
   }
 
   .card {
-    @apply rounded-2xl border border-slate-200/80 bg-white shadow-soft;
+    @apply rounded-2xl border border-white/10 bg-ink-800/90 shadow-soft;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 active:scale-[0.98];
+    @apply btn bg-brand-600 text-white shadow-glow hover:bg-brand-500 active:scale-[0.98];
+  }
+  .btn-accent {
+    @apply btn bg-accent-600 text-white shadow-glow-red hover:bg-accent-500 active:scale-[0.98];
   }
   .btn-secondary {
-    @apply btn border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50;
+    @apply btn border border-white/15 bg-white/5 text-slate-200 hover:border-white/25 hover:bg-white/10;
   }
   .btn-ghost {
-    @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900;
+    @apply btn text-slate-300 hover:bg-white/10 hover:text-white;
   }
   .btn-danger {
-    @apply btn bg-rose-600 text-white hover:bg-rose-700;
+    @apply btn bg-accent-600 text-white hover:bg-accent-500;
   }
   .btn-success {
-    @apply btn bg-emerald-600 text-white hover:bg-emerald-700;
+    @apply btn bg-emerald-600 text-white hover:bg-emerald-500;
   }
   .btn-sm {
     @apply rounded-lg px-3 py-1.5 text-xs;
   }
 
   .label {
-    @apply mb-1.5 block text-sm font-medium text-slate-700;
+    @apply mb-1.5 block text-sm font-medium text-slate-300;
   }
   .input {
-    @apply block w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 shadow-sm transition focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100 disabled:cursor-not-allowed disabled:bg-slate-100;
+    @apply block w-full rounded-xl border border-white/10 bg-ink-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 transition focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/20 disabled:cursor-not-allowed disabled:opacity-60;
   }
   .input-error {
-    @apply border-rose-400 focus:border-rose-500 focus:ring-rose-100;
+    @apply border-accent-500 focus:border-accent-500 focus:ring-accent-500/20;
   }
   .field-error {
-    @apply mt-1.5 text-xs font-medium text-rose-600;
+    @apply mt-1.5 text-xs font-medium text-accent-400;
   }
 
   .badge {
@@ -66,23 +78,61 @@
   }
 
   .skeleton {
-    @apply relative overflow-hidden rounded-lg bg-slate-200/80;
+    @apply relative overflow-hidden rounded-lg bg-white/[0.06];
   }
   .skeleton::after {
     content: '';
-    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent;
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent;
   }
 
   .section-title {
-    @apply text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl;
+    @apply font-display text-3xl font-semibold uppercase tracking-wide text-white sm:text-4xl;
+  }
+
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.25em] text-accent-500;
+  }
+
+  /* Classic red-white-blue barber pole stripes */
+  .barber-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #dc2626 0 12px,
+      #f8fafc 12px 24px,
+      #2563eb 24px 36px,
+      #f8fafc 36px 48px
+    );
+    background-size: 67.88px 67.88px;
+  }
+  .barber-stripes-animated {
+    @apply barber-stripes;
+    animation: barber-pole 1.4s linear infinite;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-400 via-white to-accent-400 bg-clip-text text-transparent;
   }
 }
 
-/* Scrollbar for dropdowns & chat */
+@keyframes barber-pole {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 67.88px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barber-stripes-animated {
+    animation: none;
+  }
+}
+
 .thin-scroll::-webkit-scrollbar {
   width: 6px;
 }
 .thin-scroll::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #2b3858;
   border-radius: 9999px;
 }

@@ -1,7 +1,9 @@
 # AI-Booking-Template-1
 
 **Пълна AI система за онлайн резервации за бизнеси с услуги** – бръснарници, фризьорски салони, автомивки, студиа за красота, фото студиа.
-Готов шаблон за продажба и повторна употреба (MERN stack, без TypeScript).
+Готов шаблон за продажба и повторна употреба (MERN stack: backend на JavaScript, frontend на TypeScript).
+
+**Дизайн:** тъмна тема в бръснарско синьо и червено, анимиран бръснарски стълб (barber pole) и снимки от бръснарница.
 
 ---
 
@@ -60,7 +62,7 @@
 
 | Част | Технологии |
 |------|------------|
-| Frontend | React 18, Vite 5, JavaScript, React Router DOM v6, Axios, Tailwind CSS 3 |
+| Frontend | React 18, Vite 5, **TypeScript (strict)**, React Router DOM v6, Axios, Tailwind CSS 3 – тъмна тема в синьо и червено (barber стил) |
 | Backend | Node.js (18+), Express 4, MongoDB + Mongoose 8, JWT, bcryptjs, cors, helmet, express-rate-limit, dotenv, cookie-parser |
 | AI | OpenAI Chat Completions API през `fetch` (модел `gpt-4o-mini`) + локален mock AI |
 
@@ -132,13 +134,7 @@ VITE_API_URL=
 
 ## Инсталация и стартиране
 
-### Вариант А – с един клик
-- **Windows:** двоен клик на `setup.bat`
-- **Mac / Linux:** `bash setup.sh`
-
-Скриптовете създават/възстановяват цялата структура `AI-Booking-Template-1/frontend` и `AI-Booking-Template-1/backend` с всички файлове и (ако има Node.js) инсталират зависимостите. Попълнените ти `.env` файлове **никога не се презаписват**.
-
-### Вариант Б – ръчно
+### Стартиране
 
 **1. Backend**
 ```bash
@@ -160,7 +156,7 @@ npm run dev      # http://localhost:5173
 
 ### Production build
 ```bash
-cd frontend && npm run build     # резултатът е в frontend/dist
+cd frontend && npm run build     # проверка на типовете (tsc) + build в frontend/dist
 cd backend && npm start
 ```
 За продукция задай `NODE_ENV=production` на сървъра (cookie-тата стават `secure` + `sameSite=none`).
@@ -236,40 +232,42 @@ AI-Booking-Template-1/
 │   ├── .env
 │   └── .env.example
 ├── frontend/
-│   ├── public/favicon.svg
+│   ├── public/favicon.svg               (бръснарски стълб)
 │   ├── src/
-│   │   ├── api/axios.js
+│   │   ├── api/axios.ts
 │   │   ├── components/        CustomDropdown, InlineFeedback, LoadingScreen, Navbar, Footer, ProtectedRoute,
-│   │   │                      ErrorBoundary, ConfirmModal, EmptyState, AIChatWidget, Modal, Pagination,
-│   │   │                      Skeleton, ServiceCard, Calendar, PasswordInput (*.jsx)
-│   │   ├── context/AuthContext.jsx
-│   │   ├── hooks/useDebounce.js
-│   │   ├── pages/             Home, Services, BookingPage, Login, Register, Dashboard, AdminServices, NotFound (*.jsx)
-│   │   ├── utils/format.js
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
+│   │   │                      ErrorBoundary, ConfirmModal, EmptyState, AIChatWidget, Modal, Pagination, Skeleton,
+│   │   │                      ServiceCard, Calendar, PasswordInput, BarberPole, SafeImage, PageHeader, AuthLayout (*.tsx)
+│   │   ├── context/AuthContext.tsx
+│   │   ├── hooks/useDebounce.ts
+│   │   ├── pages/             Home, Services, BookingPage, Login, Register, Dashboard, AdminServices, NotFound (*.tsx)
+│   │   ├── types/index.ts     (всички типове: User, Service, Booking, Stats...)
+│   │   ├── utils/format.ts, utils/images.ts
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   ├── index.css
+│   │   └── vite-env.d.ts
 │   ├── index.html
 │   ├── package.json
-│   ├── vite.config.js
+│   ├── tsconfig.json
+│   ├── vite.config.ts
 │   ├── tailwind.config.js
 │   ├── postcss.config.js
 │   ├── .env
 │   └── .env.example
 ├── README.md
-├── .gitignore
-├── setup.bat
-└── setup.sh
+└── .gitignore
 ```
 
 ---
 
 ## Персонализиране за твоя бизнес
 
-- **Име и лого:** `frontend/src/components/Navbar.jsx` (компонент `Logo`) и `frontend/public/favicon.svg`
-- **Цветове:** `frontend/tailwind.config.js` → `brand`
-- **Текстове на началната страница:** `frontend/src/pages/Home.jsx`
-- **Валута:** `CURRENCY` в `frontend/src/utils/format.js` и `backend/src/utils/time.js` (по подразбиране EUR)
+- **Име и лого:** `frontend/src/components/Navbar.tsx` (компонент `Logo`) и `frontend/public/favicon.svg`
+- **Цветове:** `frontend/tailwind.config.js` → `brand` (синьо), `accent` (червено), `ink` (тъмни фонове)
+- **Снимки:** `frontend/src/utils/images.ts` – смени URL-ите със снимки на твоя салон. Ако снимка не се зареди, автоматично се показват бръснарски ивици.
+- **Текстове на началната страница:** `frontend/src/pages/Home.tsx`
+- **Валута:** `CURRENCY` в `frontend/src/utils/format.ts` и `backend/src/utils/time.js` (по подразбиране EUR)
 - **Стъпка на часовете (30 мин):** `SLOT_STEP_MINUTES` в `backend/src/utils/time.js`
 - **AI модел:** `OPENAI_MODEL` в `backend/src/utils/openai.js`
 
