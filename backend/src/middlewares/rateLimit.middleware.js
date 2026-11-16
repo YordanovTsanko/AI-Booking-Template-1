@@ -24,7 +24,7 @@ export const authLimiter = makeLimiter({
   message: 'Твърде много опити за вход. Изчакай 15 минути и опитай отново.',
 });
 
-/** AI endpoints limiter (protects the OpenAI budget) */
+/** AI endpoints limiter (protects the Groq quota) */
 export const aiLimiter = makeLimiter({
   windowMs: 60 * 1000,
   max: 20,

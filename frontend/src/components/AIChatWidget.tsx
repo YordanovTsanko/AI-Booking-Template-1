@@ -124,7 +124,7 @@ export default function AIChatWidget() {
           role="dialog"
         >
           <div className="barber-stripes-animated h-1.5 w-full" aria-hidden="true" />
-          <header className="flex items-center justify-between bg-gradient-to-r from-brand-700 to-accent-700 px-4 py-3 text-white">
+          <header className="flex items-center justify-between bg-linear-to-r from-brand-700 to-accent-700 px-4 py-3 text-white">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-lg">💈</div>
               <div>
@@ -234,7 +234,7 @@ export default function AIChatWidget() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-5 right-4 z-[80] flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand-600 to-accent-600 text-white shadow-glow ring-2 ring-white/20 transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-brand-500/40 sm:right-6"
+        className="fixed bottom-5 right-4 z-[80] flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-brand-600 to-accent-600 text-white shadow-glow ring-2 ring-white/20 transition hover:scale-105 focus:outline-hidden focus:ring-4 focus:ring-brand-500/40 sm:right-6"
         aria-label={open ? 'Затвори AI асистента' : 'Отвори AI асистента'}
         aria-expanded={open}
       >

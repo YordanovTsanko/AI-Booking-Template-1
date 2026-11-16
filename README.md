@@ -15,7 +15,7 @@
 - **Служителят** вижда своите часове и може да ги потвърждава, завършва и отказва.
 - **AI асистент** (плаващ чат долу вдясно на всяка страница) разбира съобщения като *„искам час в петък следобед“* и предлага реални свободни часове – с един клик води към резервацията.
 - **AI генератор на описания** – в админ панела с бутон „✨ Генерирай с AI“ се пише продаващо описание на услугата.
-- AI работи с **OpenAI**, а ако няма ключ – с вграден **умен mock AI** на български. Приложението никога не се срива заради липсващ ключ.
+- AI работи с **Groq** (бърз и с безплатен план), а ако няма ключ – с вграден **умен mock AI** на български. Приложението никога не се срива заради липсващ ключ или спрян модел.
 
 ---
 
@@ -62,15 +62,15 @@
 
 | Част | Технологии |
 |------|------------|
-| Frontend | React 18, Vite 5, **TypeScript (strict)**, React Router DOM v6, Axios, Tailwind CSS 3 – тъмна тема в синьо и червено (barber стил) |
-| Backend | Node.js (18+), Express 4, MongoDB + Mongoose 8, JWT, bcryptjs, cors, helmet, express-rate-limit, dotenv, cookie-parser |
-| AI | OpenAI Chat Completions API през `fetch` (модел `gpt-4o-mini`) + локален mock AI |
+| Frontend | React 19, Vite 8, **TypeScript 7 (strict)**, React Router DOM v7, Axios, Tailwind CSS 4 (`@tailwindcss/vite`) – тъмна тема в синьо и червено (barber стил) |
+| Backend | Node.js, Express 5, MongoDB + Mongoose 9, JWT, bcryptjs 3, cors, helmet, express-rate-limit 8, dotenv, cookie-parser |
+| AI | **Groq** API (OpenAI-съвместим) през `fetch`, модел `openai/gpt-oss-120b` (сменя се с `GROQ_MODEL`), автоматичен резервен модел `openai/gpt-oss-20b` + локален mock AI |
 
 ---
 
 ## Изисквания
 
-- **Node.js 18 или по-нов** (https://nodejs.org)
+- **Node.js 22 LTS** (минимум 20.19 – изискване на Vite 8) – https://nodejs.org
 - **MongoDB** – безплатен клъстер в **MongoDB Atlas** (https://www.mongodb.com/atlas) или локален MongoDB
 
 ---
@@ -92,8 +92,10 @@ JWT_SECRET=
 JWT_EXPIRE=
 # Адрес на фронтенда, пример: http://localhost:5173
 CLIENT_URL=
-# Твоят OpenAI API ключ - ако нямаш, остави празно, AI-то ще работи с mock
-OPENAI_API_KEY=
+# Твоят Groq API ключ (https://console.groq.com/keys) - ако нямаш, остави празно, AI-то ще работи с mock
+GROQ_API_KEY=
+# Groq модел - ако го оставиш празен ще е openai/gpt-oss-120b
+GROQ_MODEL=
 ```
 
 1. **MONGO_URI** – влез в MongoDB Atlas → създай безплатен клъстер → *Database Access* → създай потребител с парола → *Network Access* → добави своя IP (или `0.0.0.0/0` за тест) → *Connect* → *Drivers* → копирай адреса. Замени `<password>` с паролата и добави име на базата след `/`, например:
@@ -102,7 +104,8 @@ OPENAI_API_KEY=
    `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
 3. **JWT_EXPIRE** – например `7d` (7 дни). Ако е празно – 7 дни.
 4. **CLIENT_URL** – адресът на фронтенда. Локално: `http://localhost:5173`. Може няколко, разделени със запетая.
-5. **OPENAI_API_KEY** – ключ от https://platform.openai.com/api-keys. **Ако нямаш – остави празно**, AI-то работи с вградения mock.
+5. **GROQ_API_KEY** – влез в https://console.groq.com → *API Keys* → *Create API Key* → копирай ключа (започва с `gsk_`). Има безплатен план. **Ако нямаш – остави празно**, AI-то работи с вградения mock.
+   **GROQ_MODEL** – по желание. Празно = `openai/gpt-oss-120b`. Ако Groq спре някой модел, сложи нов от https://console.groq.com/docs/models (при спрян модел сървърът сам пробва `openai/gpt-oss-20b`).
 6. **PORT** – по желание, по подразбиране `5000`.
 
 ### Стъпка 2 – Frontend: отвори `AI-Booking-Template-1/frontend/.env`
@@ -125,7 +128,8 @@ VITE_API_URL=
 | `JWT_SECRET` | генерира се временен ключ (при рестарт всички трябва да влязат отново) – **за продукция задължително го попълни** |
 | `JWT_EXPIRE` | `7d` |
 | `CLIENT_URL` | `http://localhost:5173` |
-| `OPENAI_API_KEY` | AI работи с локалния mock |
+| `GROQ_API_KEY` | AI работи с локалния mock |
+| `GROQ_MODEL` | `openai/gpt-oss-120b` |
 | `VITE_API_URL` | `/api` през Vite proxy |
 
 > `.env` файловете са в `.gitignore` – тайните ти няма да отидат в GitHub. `.env.example` файловете остават като шаблон.
@@ -220,12 +224,12 @@ npm run seed
 AI-Booking-Template-1/
 ├── backend/
 │   ├── src/
-│   │   ├── config/db.js
+│   │   ├── config/db.js, config/env.js
 │   │   ├── models/            User.js, Service.js, Booking.js, AIChatMessage.js
 │   │   ├── routes/            auth, services, staff, bookings, ai, health (*.routes.js)
 │   │   ├── controllers/       auth, services, staff, bookings, ai (*.controller.js)
 │   │   ├── middlewares/       auth, error, validate, rateLimit, requireDb (*.middleware.js)
-│   │   ├── utils/             asyncHandler, ApiError, ApiResponse, availability, jwt, openai, pagination, time
+│   │   ├── utils/             asyncHandler, ApiError, ApiResponse, availability, jwt, groq, pagination, time
 │   │   ├── server.js
 │   │   └── seed.js
 │   ├── package.json
@@ -251,8 +255,6 @@ AI-Booking-Template-1/
 │   ├── package.json
 │   ├── tsconfig.json
 │   ├── vite.config.ts
-│   ├── tailwind.config.js
-│   ├── postcss.config.js
 │   ├── .env
 │   └── .env.example
 ├── README.md
@@ -264,12 +266,12 @@ AI-Booking-Template-1/
 ## Персонализиране за твоя бизнес
 
 - **Име и лого:** `frontend/src/components/Navbar.tsx` (компонент `Logo`) и `frontend/public/favicon.svg`
-- **Цветове:** `frontend/tailwind.config.js` → `brand` (синьо), `accent` (червено), `ink` (тъмни фонове)
+- **Цветове, шрифтове, сенки:** блокът `@theme` в `frontend/src/index.css` → `--color-brand-*` (синьо), `--color-accent-*` (червено), `--color-ink-*` (тъмни фонове). Tailwind 4 няма `tailwind.config.js` – всичко е в CSS.
 - **Снимки:** `frontend/src/utils/images.ts` – смени URL-ите със снимки на твоя салон. Ако снимка не се зареди, автоматично се показват бръснарски ивици.
 - **Текстове на началната страница:** `frontend/src/pages/Home.tsx`
 - **Валута:** `CURRENCY` в `frontend/src/utils/format.ts` и `backend/src/utils/time.js` (по подразбиране EUR)
 - **Стъпка на часовете (30 мин):** `SLOT_STEP_MINUTES` в `backend/src/utils/time.js`
-- **AI модел:** `OPENAI_MODEL` в `backend/src/utils/openai.js`
+- **AI модел:** `GROQ_MODEL` в `backend/.env` (или `DEFAULT_MODEL` в `backend/src/utils/groq.js`)
 
 ---
 
@@ -281,7 +283,10 @@ AI-Booking-Template-1/
 | „CORS: достъпът от адрес ... не е разрешен“ | Добави адреса на фронтенда в `CLIENT_URL` в `backend/.env` и рестартирай бекенда. |
 | „Порт 5000 е зает“ | Смени `PORT` в `backend/.env` и `VITE_API_URL` във `frontend/.env`. |
 | Излиза ме при всяко рестартиране | Попълни `JWT_SECRET`. |
-| AI отговаря „по-простичко“ | Работи mock режимът – добави `OPENAI_API_KEY`. |
+| Грешка „trying to use `tailwindcss` directly as a PostCSS plugin“ | Остарял `postcss.config.js` / `tailwind.config.js` във `frontend` – изтрий ги. Tailwind 4 работи през `@tailwindcss/vite` във `vite.config.ts`. |
+| Странни грешки след обновяване на пакети | Изтрий `node_modules` и `package-lock.json` в съответната папка и пусни `npm install` отново. |
+| AI отговаря „по-простичко“ | Работи mock режимът – добави `GROQ_API_KEY`. В конзолата на бекенда пише `AI mode: Groq (...)` или `mock`. |
+| В конзолата: „Groq ... failed, using mock“ | Грешен ключ, изчерпан лимит или спрян модел – провери ключа и `GROQ_MODEL`. Приложението продължава да работи с mock. |
 
 ---
 

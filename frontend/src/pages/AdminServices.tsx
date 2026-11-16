@@ -138,14 +138,14 @@ function ServiceFormModal({ open, service, categories, onClose, onSaved }: Servi
     setGenerating(true);
     setAiFeedback(null);
     try {
-      const res = await api.post<ApiResponse<{ description: string; source: 'openai' | 'mock' }>>('/ai/generate-description', {
+      const res = await api.post<ApiResponse<{ description: string; source: 'groq' | 'mock' }>>('/ai/generate-description', {
         title: form.title.trim(),
         category: form.category.trim() || undefined,
       });
       set('description', res.data.data.description);
       setAiFeedback({
         type: 'success',
-        message: `${res.data.message}${res.data.data.source === 'mock' ? ' (локален AI – добави OPENAI_API_KEY за още по-добри текстове)' : ''}`,
+        message: `${res.data.message}${res.data.data.source === 'mock' ? ' (локален AI – добави GROQ_API_KEY в backend/.env за още по-добри текстове)' : ''}`,
       });
     } catch (err) {
       const fb = getErrorFeedback(err);
@@ -790,7 +790,7 @@ export default function AdminServices() {
                     <div className="flex items-start gap-4">
                       <div
                         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full font-display text-xl font-bold text-white ring-2 ring-white/10 ${
-                          i % 2 ? 'bg-gradient-to-br from-accent-600 to-accent-800' : 'bg-gradient-to-br from-brand-600 to-brand-800'
+                          i % 2 ? 'bg-linear-to-br from-accent-600 to-accent-800' : 'bg-linear-to-br from-brand-600 to-brand-800'
                         }`}
                       >
                         {m.name.charAt(0)}

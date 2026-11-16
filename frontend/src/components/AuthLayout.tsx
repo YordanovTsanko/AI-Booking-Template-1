@@ -17,7 +17,7 @@ export default function AuthLayout({ title, subtitle, image, quote, children }: 
       <div className="card grid overflow-hidden lg:grid-cols-2">
         <div className="relative hidden min-h-[560px] lg:block">
           <SafeImage src={image} alt="Бръснарница" className="absolute inset-0 h-full w-full" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-brand-900/30" aria-hidden="true" />
+          <div className="absolute inset-0 bg-linear-to-t from-ink-950 via-ink-950/40 to-brand-900/30" aria-hidden="true" />
           <div className="absolute bottom-0 left-0 right-0 flex items-end gap-5 p-8">
             <BarberPole height={90} width={26} />
             <p className="font-display text-2xl font-semibold uppercase leading-snug tracking-wide text-white">{quote}</p>

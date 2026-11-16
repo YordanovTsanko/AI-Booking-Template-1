@@ -45,9 +45,9 @@ bookingSchema.index({ startAt: 1 });
 bookingSchema.index({ client: 1, startAt: -1 });
 bookingSchema.index({ staff: 1, date: 1 });
 
-bookingSchema.pre('validate', function syncActive(next) {
+// Mongoose 9: middleware no longer receives next()
+bookingSchema.pre('validate', function syncActive() {
   this.active = this.status !== 'cancelled';
-  next();
 });
 
 bookingSchema.set('toJSON', { versionKey: false });

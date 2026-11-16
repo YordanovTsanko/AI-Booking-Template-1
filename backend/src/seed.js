@@ -3,7 +3,7 @@
  * Creates: 1 admin, 3 staff, 1 demo client, 6 services, 5 bookings.
  * WARNING: wipes Users, Services, Bookings and AI chat messages first.
  */
-import 'dotenv/config';
+import './config/env.js';
 import mongoose from 'mongoose';
 import { connectDB } from './config/db.js';
 import User from './models/User.js';

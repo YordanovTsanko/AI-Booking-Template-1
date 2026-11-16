@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './config/env.js';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import { connectDB, disconnectDB } from './config/db.js';
 import ApiError from './utils/ApiError.js';
 import ApiResponse from './utils/ApiResponse.js';
+import { hasGroq, getGroqModel } from './utils/groq.js';
 import { apiLimiter } from './middlewares/rateLimit.middleware.js';
 import requireDb from './middlewares/requireDb.middleware.js';
 import { apiNotFound, notFound, errorHandler } from './middlewares/error.middleware.js';
@@ -93,7 +94,7 @@ const server = app.listen(PORT, () => {
   console.log(`🚀 AI-Booking-Template-1 API is ready on http://localhost:${PORT}`);
   console.log(`❤️  Health check:  http://localhost:${PORT}/api/health`);
   console.log(`🌐 Allowed origins: ${allowedOrigins.join(', ')}`);
-  console.log(`🤖 AI mode: ${(process.env.OPENAI_API_KEY || '').trim() ? 'OpenAI' : 'mock (no OPENAI_API_KEY)'}`);
+  console.log(`🤖 AI mode: ${hasGroq() ? `Groq (${getGroqModel()})` : 'mock (no GROQ_API_KEY)'}`);
   console.log('==============================================');
 });
 

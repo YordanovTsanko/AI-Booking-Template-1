@@ -6,7 +6,7 @@ const aiChatMessageSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     role: { type: String, enum: ['user', 'assistant'], required: true },
     content: { type: String, required: true, maxlength: 4000 },
-    source: { type: String, enum: ['openai', 'mock'], default: 'mock' },
+    source: { type: String, enum: ['groq', 'mock'], default: 'mock' },
     meta: { type: mongoose.Schema.Types.Mixed, default: null },
   },
   { timestamps: true }

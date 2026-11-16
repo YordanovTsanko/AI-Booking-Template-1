@@ -66,7 +66,7 @@ const TONES: Record<NonNullable<StatCardProps['tone']>, string> = {
 function StatCard({ label, value, hint, icon, tone = 'blue' }: StatCardProps) {
   return (
     <div className="card relative overflow-hidden p-5">
-      <div className={`absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br to-transparent ${TONES[tone]}`} aria-hidden="true" />
+      <div className={`absolute -right-8 -top-8 h-24 w-24 rounded-full bg-linear-to-br to-transparent ${TONES[tone]}`} aria-hidden="true" />
       <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
         <span aria-hidden="true">{icon}</span> {label}
       </p>

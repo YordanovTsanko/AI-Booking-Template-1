@@ -23,7 +23,7 @@ export default function EmptyState({
 }: EmptyStateProps) {
   return (
     <div className={`card flex flex-col items-center px-6 py-14 text-center ${className}`}>
-      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-600/30 to-accent-600/30 text-brand-300 ring-1 ring-white/10">
+      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-brand-600/30 to-accent-600/30 text-brand-300 ring-1 ring-white/10">
         {icon || (
           <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
             <circle cx="6" cy="6" r="3" />

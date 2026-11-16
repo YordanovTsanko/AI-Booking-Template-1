@@ -131,7 +131,7 @@ export interface ChatResponse {
   reply: string;
   suggestions: ChatSuggestion[];
   service: { _id: string; title: string; price: number; duration: number } | null;
-  source: 'openai' | 'mock';
+  source: 'groq' | 'mock';
 }
 
 export interface ChatMessage {

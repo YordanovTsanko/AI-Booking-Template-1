@@ -79,7 +79,7 @@ export default function Calendar({ value, onChange, isDateDisabled, maxDaysAhead
               aria-label={date}
               className={`aspect-square rounded-xl text-sm font-semibold transition ${
                 selected
-                  ? 'bg-gradient-to-br from-brand-600 to-accent-600 text-white shadow-glow'
+                  ? 'bg-linear-to-br from-brand-600 to-accent-600 text-white shadow-glow'
                   : disabled
                     ? 'cursor-not-allowed text-slate-700'
                     : 'text-slate-200 hover:bg-brand-600/20 hover:text-white'

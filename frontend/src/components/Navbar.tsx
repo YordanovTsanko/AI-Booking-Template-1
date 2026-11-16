@@ -6,7 +6,7 @@ import BarberPole from './BarberPole';
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   `relative rounded-lg px-3 py-2 text-sm font-semibold uppercase tracking-wide transition ${
-    isActive ? 'text-white after:absolute after:inset-x-3 after:-bottom-[1px] after:h-0.5 after:bg-gradient-to-r after:from-brand-500 after:to-accent-500' : 'text-slate-400 hover:text-white'
+    isActive ? 'text-white after:absolute after:inset-x-3 after:-bottom-[1px] after:h-0.5 after:bg-linear-to-r after:from-brand-500 after:to-accent-500' : 'text-slate-400 hover:text-white'
   }`;
 
 const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>

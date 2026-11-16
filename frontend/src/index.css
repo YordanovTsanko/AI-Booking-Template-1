@@ -1,8 +1,82 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
+/* =========================================================================
+ *  THEME (Tailwind CSS v4 – CSS-first config, replaces tailwind.config.js)
+ * ========================================================================= */
+@theme {
+  /* Barber blue */
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+
+  /* Barber red */
+  --color-accent-300: #fca5a5;
+  --color-accent-400: #f87171;
+  --color-accent-500: #ef4444;
+  --color-accent-600: #dc2626;
+  --color-accent-700: #b91c1c;
+  --color-accent-800: #991b1b;
+
+  /* Dark surfaces */
+  --color-ink-950: #05070d;
+  --color-ink-900: #0a0e1a;
+  --color-ink-800: #0f1525;
+  --color-ink-700: #161e33;
+  --color-ink-600: #1f2a44;
+  --color-ink-500: #2b3858;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Oswald', 'Inter', system-ui, sans-serif;
+
+  --shadow-soft: 0 20px 40px -20px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 40px -10px rgba(37, 99, 235, 0.6);
+  --shadow-glow-red: 0 0 40px -10px rgba(220, 38, 38, 0.6);
+
+  --animate-shimmer: shimmer 1.5s infinite;
+  --animate-fade-in: fade-in 0.25s ease-out;
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* =========================================================================
+ *  BASE
+ * ========================================================================= */
 @layer base {
+  /* v4 defaults borders to currentColor – keep the subtle dark-theme border */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: rgb(255 255 255 / 0.1);
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
   html {
     color-scheme: dark;
     -webkit-tap-highlight-color: transparent;
@@ -18,7 +92,7 @@
     @apply bg-brand-600 text-white;
   }
   :focus-visible {
-    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-ink-900;
+    @apply outline-hidden ring-2 ring-brand-500 ring-offset-2 ring-offset-ink-900;
   }
   input[type='date']::-webkit-calendar-picker-indicator {
     filter: invert(1);
@@ -26,91 +100,96 @@
   }
 }
 
-@layer components {
-  .container-page {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
-  }
+/* =========================================================================
+ *  COMPONENT UTILITIES (v4 @utility – usable in className and @apply)
+ * ========================================================================= */
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
 
-  .card {
-    @apply rounded-2xl border border-white/10 bg-ink-800/90 shadow-soft;
-  }
+@utility card {
+  @apply rounded-2xl border border-white/10 bg-ink-800/90 shadow-soft;
+}
 
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50;
-  }
-  .btn-primary {
-    @apply btn bg-brand-600 text-white shadow-glow hover:bg-brand-500 active:scale-[0.98];
-  }
-  .btn-accent {
-    @apply btn bg-accent-600 text-white shadow-glow-red hover:bg-accent-500 active:scale-[0.98];
-  }
-  .btn-secondary {
-    @apply btn border border-white/15 bg-white/5 text-slate-200 hover:border-white/25 hover:bg-white/10;
-  }
-  .btn-ghost {
-    @apply btn text-slate-300 hover:bg-white/10 hover:text-white;
-  }
-  .btn-danger {
-    @apply btn bg-accent-600 text-white hover:bg-accent-500;
-  }
-  .btn-success {
-    @apply btn bg-emerald-600 text-white hover:bg-emerald-500;
-  }
-  .btn-sm {
-    @apply rounded-lg px-3 py-1.5 text-xs;
-  }
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+}
+@utility btn-primary {
+  @apply btn bg-brand-600 text-white shadow-glow hover:bg-brand-500 active:scale-[0.98];
+}
+@utility btn-accent {
+  @apply btn bg-accent-600 text-white shadow-glow-red hover:bg-accent-500 active:scale-[0.98];
+}
+@utility btn-secondary {
+  @apply btn border border-white/15 bg-white/5 text-slate-200 hover:border-white/25 hover:bg-white/10;
+}
+@utility btn-ghost {
+  @apply btn text-slate-300 hover:bg-white/10 hover:text-white;
+}
+@utility btn-danger {
+  @apply btn bg-accent-600 text-white hover:bg-accent-500;
+}
+@utility btn-success {
+  @apply btn bg-emerald-600 text-white hover:bg-emerald-500;
+}
+@utility btn-sm {
+  @apply rounded-lg px-3 py-1.5 text-xs;
+}
 
-  .label {
-    @apply mb-1.5 block text-sm font-medium text-slate-300;
-  }
-  .input {
-    @apply block w-full rounded-xl border border-white/10 bg-ink-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 transition focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/20 disabled:cursor-not-allowed disabled:opacity-60;
-  }
-  .input-error {
-    @apply border-accent-500 focus:border-accent-500 focus:ring-accent-500/20;
-  }
-  .field-error {
-    @apply mt-1.5 text-xs font-medium text-accent-400;
-  }
+@utility label {
+  @apply mb-1.5 block text-sm font-medium text-slate-300;
+}
+@utility input {
+  @apply block w-full rounded-xl border border-white/10 bg-ink-900/80 px-3.5 py-2.5 text-sm text-slate-100 transition placeholder:text-slate-500 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/20 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-60;
+}
+@utility input-error {
+  @apply border-accent-500 focus:border-accent-500 focus:ring-accent-500/20;
+}
+@utility field-error {
+  @apply mt-1.5 text-xs font-medium text-accent-400;
+}
 
-  .badge {
-    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
-  }
+@utility badge {
+  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+}
 
-  .skeleton {
-    @apply relative overflow-hidden rounded-lg bg-white/[0.06];
-  }
-  .skeleton::after {
+@utility skeleton {
+  @apply relative overflow-hidden rounded-lg bg-white/[0.06];
+  &::after {
     content: '';
-    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent;
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-linear-to-r from-transparent via-white/10 to-transparent;
   }
+}
 
-  .section-title {
-    @apply font-display text-3xl font-semibold uppercase tracking-wide text-white sm:text-4xl;
-  }
+@utility section-title {
+  @apply font-display text-3xl font-semibold tracking-wide text-white uppercase sm:text-4xl;
+}
 
-  .eyebrow {
-    @apply text-xs font-bold uppercase tracking-[0.25em] text-accent-500;
-  }
+@utility eyebrow {
+  @apply text-xs font-bold tracking-[0.25em] text-accent-500 uppercase;
+}
 
-  /* Classic red-white-blue barber pole stripes */
-  .barber-stripes {
-    background-image: repeating-linear-gradient(
-      -45deg,
-      #dc2626 0 12px,
-      #f8fafc 12px 24px,
-      #2563eb 24px 36px,
-      #f8fafc 36px 48px
-    );
-    background-size: 67.88px 67.88px;
-  }
-  .barber-stripes-animated {
-    @apply barber-stripes;
-    animation: barber-pole 1.4s linear infinite;
-  }
+/* Classic red-white-blue barber pole stripes */
+@utility barber-stripes {
+  background-image: repeating-linear-gradient(-45deg, #dc2626 0 12px, #f8fafc 12px 24px, #2563eb 24px 36px, #f8fafc 36px 48px);
+  background-size: 67.88px 67.88px;
+}
+@utility barber-stripes-animated {
+  @apply barber-stripes;
+  animation: barber-pole 1.4s linear infinite;
+}
 
-  .text-gradient {
-    @apply bg-gradient-to-r from-brand-400 via-white to-accent-400 bg-clip-text text-transparent;
+@utility text-gradient {
+  @apply bg-linear-to-r from-brand-400 via-white to-accent-400 bg-clip-text text-transparent;
+}
+
+@utility thin-scroll {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #2b3858;
+    border-radius: 9999px;
   }
 }
 
@@ -127,12 +206,4 @@
   .barber-stripes-animated {
     animation: none;
   }
-}
-
-.thin-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-.thin-scroll::-webkit-scrollbar-thumb {
-  background: #2b3858;
-  border-radius: 9999px;
 }

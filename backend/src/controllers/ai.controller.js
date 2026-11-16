@@ -3,7 +3,7 @@ import User from '../models/User.js';
 import AIChatMessage from '../models/AIChatMessage.js';
 import ApiResponse from '../utils/ApiResponse.js';
 import asyncHandler from '../utils/asyncHandler.js';
-import { hasOpenAI, callOpenAI } from '../utils/openai.js';
+import { hasGroq, callGroq } from '../utils/groq.js';
 import { computeAvailableSlots, staffOffersService } from '../utils/availability.js';
 import {
   todayStr,
@@ -82,9 +82,9 @@ export const generateDescription = asyncHandler(async (req, res) => {
   let description = null;
   let source = 'mock';
 
-  if (hasOpenAI()) {
+  if (hasGroq()) {
     try {
-      description = await callOpenAI({
+      description = await callGroq({
         messages: [
           {
             role: 'system',
@@ -99,9 +99,9 @@ export const generateDescription = asyncHandler(async (req, res) => {
         maxTokens: 300,
         temperature: 0.8,
       });
-      source = 'openai';
+      source = 'groq';
     } catch (err) {
-      console.warn(`⚠️  OpenAI description failed, using mock: ${err.message}`);
+      console.warn(`⚠️  Groq description failed, using mock: ${err.message}`);
     }
   }
 
@@ -263,11 +263,11 @@ const parseIntentMock = (message, history, services) => {
   return { type, serviceId: service ? String(service._id) : null, dates, partOfDay, time, reply: null };
 };
 
-const parseIntentOpenAI = async (message, history, services) => {
+const parseIntentGroq = async (message, history, services) => {
   const today = todayStr();
   const serviceList = services.map((s) => ({ id: String(s._id), title: s.title, category: s.category, price: s.price, duration: s.duration }));
 
-  const result = await callOpenAI({
+  const result = await callGroq({
     json: true,
     maxTokens: 350,
     temperature: 0.2,
@@ -467,12 +467,12 @@ export const chat = asyncHandler(async (req, res) => {
 
   let intent = null;
   let source = 'mock';
-  if (hasOpenAI()) {
+  if (hasGroq()) {
     try {
-      intent = await parseIntentOpenAI(message, history, services);
-      source = 'openai';
+      intent = await parseIntentGroq(message, history, services);
+      source = 'groq';
     } catch (err) {
-      console.warn(`⚠️  OpenAI chat failed, using mock: ${err.message}`);
+      console.warn(`⚠️  Groq chat failed, using mock: ${err.message}`);
     }
   }
   if (!intent) intent = parseIntentMock(message, history, services);

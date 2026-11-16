@@ -19,7 +19,7 @@ export default function SafeImage({ src, alt, className = '', fallback, loading 
     return (
       <div className={`relative flex items-center justify-center overflow-hidden bg-ink-700 ${className}`} role="img" aria-label={alt}>
         <div className="barber-stripes absolute inset-0 opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-br from-ink-900/70 via-ink-900/40 to-ink-900/80" />
+        <div className="absolute inset-0 bg-linear-to-br from-ink-900/70 via-ink-900/40 to-ink-900/80" />
         {fallback && <div className="relative">{fallback}</div>}
       </div>
     );

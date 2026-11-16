@@ -44,7 +44,7 @@ export default function ServiceCard({ service, onSelect, selected = false, actio
     >
       <div className="relative overflow-hidden">
         <ServiceImage service={service} className="h-48 w-full transition duration-500 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-800 via-ink-800/10 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-0 bg-linear-to-t from-ink-800 via-ink-800/10 to-transparent" aria-hidden="true" />
         <span className="badge absolute left-3 top-3 bg-ink-900/80 text-slate-200 ring-1 ring-white/15 backdrop-blur">{service.category}</span>
         <span className="absolute right-3 top-3 rounded-lg bg-accent-600 px-2.5 py-1 text-sm font-bold text-white shadow-glow-red">{formatPrice(service.price)}</span>
       </div>

@@ -53,8 +53,8 @@ export default function Home() {
       {/* HERO */}
       <section className="relative isolate overflow-hidden">
         <SafeImage src={BARBER_IMAGES.hero} alt="Бръснарница" loading="eager" className="absolute inset-0 -z-20 h-full w-full" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/40" aria-hidden="true" />
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-ink-900 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-0 -z-10 bg-linear-to-r from-ink-950 via-ink-950/85 to-ink-950/40" aria-hidden="true" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-linear-to-t from-ink-900 to-transparent" aria-hidden="true" />
 
         <div className="container-page grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[1.4fr_1fr]">
           <div>
@@ -157,7 +157,7 @@ export default function Home() {
           {GALLERY.map((img, i) => (
             <div key={img.src} className={`group relative overflow-hidden rounded-2xl ring-1 ring-white/10 ${i % 3 === 0 ? 'md:row-span-2' : ''}`}>
               <SafeImage src={img.src} alt={img.alt} className={`w-full transition duration-700 group-hover:scale-110 ${i % 3 === 0 ? 'h-56 md:h-full' : 'h-56'}`} />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent opacity-80" aria-hidden="true" />
+              <div className="absolute inset-0 bg-linear-to-t from-ink-950/80 via-transparent to-transparent opacity-80" aria-hidden="true" />
               <p className="absolute bottom-3 left-3 text-sm font-semibold text-white">{img.alt}</p>
             </div>
           ))}
@@ -182,7 +182,7 @@ export default function Home() {
       <section className="container-page mt-16">
         <div className="relative isolate overflow-hidden rounded-3xl border border-white/10 px-6 py-14 text-center sm:px-12">
           <SafeImage src={BARBER_IMAGES.interior} alt="" className="absolute inset-0 -z-20 h-full w-full" />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-900/95 via-ink-950/90 to-accent-800/90" aria-hidden="true" />
+          <div className="absolute inset-0 -z-10 bg-linear-to-r from-brand-900/95 via-ink-950/90 to-accent-800/90" aria-hidden="true" />
           <div className="barber-stripes absolute inset-x-0 top-0 h-1.5" aria-hidden="true" />
           <h2 className="font-display text-4xl font-bold uppercase tracking-wide text-white">Време е за свежа визия</h2>
           <p className="mx-auto mt-3 max-w-xl text-slate-300">Регистрацията отнема под минута. Резервацията – още по-малко.</p>

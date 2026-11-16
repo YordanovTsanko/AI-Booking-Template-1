@@ -211,7 +211,7 @@ export default function CustomDropdown<V extends DropdownValue = string>({
               : open
                 ? 'border-brand-500 ring-4 ring-brand-500/20'
                 : 'border-white/10 hover:border-white/20'
-          } ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} focus:outline-none ${clearable && selected ? 'pr-16' : 'pr-10'} ${buttonClassName}`}
+          } ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} focus:outline-hidden ${clearable && selected ? 'pr-16' : 'pr-10'} ${buttonClassName}`}
         >
           <span className={`truncate ${selected ? 'text-slate-100' : 'text-slate-500'}`}>{selected ? selected.label : placeholder}</span>
         </button>
@@ -256,7 +256,7 @@ export default function CustomDropdown<V extends DropdownValue = string>({
                   setHighlight(0);
                 }}
                 placeholder={searchPlaceholder}
-                className="w-full rounded-lg border border-white/10 bg-ink-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+                className="w-full rounded-lg border border-white/10 bg-ink-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-brand-500 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20"
                 aria-label={searchPlaceholder}
                 aria-controls={listId}
                 aria-activedescendant={filtered[highlight] ? `${dropdownId}-opt-${highlight}` : undefined}
